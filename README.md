@@ -1,55 +1,72 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+## Coverage new changes
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+- support function and branch test analyze
+- could got the sytem package code excute coverage also
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+- Support versions (on doing)
+ 
+|summary  |  dart vm  | flutter | coverage |  dart package                                    | flutter package                                 | 
+|---|---|---|---|---|---|
+|env1 |  2.17     |  2.8.0 | 1.3.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
+|env2 |  2.17     |  3.0.0 | 1.3.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
+|env3 |  2.17     |  3.0.0 | 1.2.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
+|env3 |  2.14.4   |  2.5.3 | 1.2.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
 
-## Features
+## Branch coverage work flow
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+```mermaid
+graph LR;
 
-## Getting started
+runDartTest-->|run test in dart vm|VM
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+VM-->|collect test data from vm|CollectCoverage
+CollectCoverage-->|format test data|lcovInfo
+lcovInfo-->|create html report|Report
 ```
 
-## Additional information
+1. run test command,start the vm, vm record all the test calls
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```
+dart run --pause-isolates-on-exit --disable-service-auth-codes --enable-vm-service=8181 test
+```
+2. collect test data for vm
+```
+collect_coverage --wait-paused --uri=http://127.0.0.1:8181/ -o coverage/coverage.json --resume-isolates --function-coverage --branch-coverage
+```
 
+3. format coverage data 
+```
+format_coverage --packages=.dart_tool/package_config.json --lcov -i coverage/coverage.json -o coverage/lcov.info
+```
 
-jiodg45@jiodg45s-MacBook-Pro lib_covarage % test_with_coverage --branch-coverage --function-coverage
-The Dart VM service is listening on http://127.0.0.1:8181/
-The Dart DevTools debugger and profiler is available at: http://127.0.0.1:8181/devtools/#/?uri=ws%3A%2F%2F127.0.0.1%3A8181%2Fws
-Could not find file `collect_coverage.dart`
-00:00 +0: loading test/lib_covarage_test.dart                                                                                                                                                          Unhandled exception:
-ProcessException: 
-  Command: dart run collect_coverage.dart --wait-paused --resume-isolates --uri=http://127.0.0.1:8181/ --scope-output=lib_covarage --branch-coverage --function-coverage -o /Users/jiodg45/lib_covarage/coverage/coverage.json
-#0      dartRun (file:///Users/jiodg45/.pub-cache/hosted/pub.flutter-io.cn/coverage-1.3.0/bin/test_with_coverage.dart:35:5)
-<asynchronous suspension>
-#1      main (file:///Users/jiodg45/.pub-cache/hosted/pub.flutter-io.cn/coverage-1.3.0/bin/test_with_coverage.dart:178:3)
-<asynchronous suspension>
+4. genrate report
 
+```
+genhtml -o coverage coverage/lcov.info 
+```
 
-dart '/Users/jiodg45/Downloads/coverage-1.3.0/bin/test_with_coverage' --branch-coverage --function-coverage
+## Screen shots 
+
+- collect system package coverage
+
+![img](./images/collect_system_coverage.png)
+
+- function coverage report
+
+![img](./images/function_coverage_report.png)
+
+## Logs and issues
+
+[flutter-2.5.3-coverage-1.2.0-dart-function-coverage-error.txt](./logs/flutter-2.5.3-coverage-1.2.0-dart-function-coverage-error.txt)  ❌
+[flutter-2.5.3-coverage-1.2.0-dart-readme-error.txt](./logs/flutter-2.5.3-coverage-1.2.0-dart-readme-error.txt) ❌
+[flutter-3.0.0-coverage-1.3.0-dart-error.txt](./logs/flutter-3.0.0-coverage-1.3.0-dart-error.txt)
+[flutter-3.0.0-coverage-1.3.0-flutter-error.txt](./logs/flutter-3.0.0-coverage-1.3.0-flutter-error.txt) ❌
+[flutter-3.0.0-coverage-1.3.2-dart-error.txt](./logs/flutter-3.0.0-coverage-1.3.2-dart-error.txt) ❌
+[flutter-3.0.0-coverage-1.3.2-dart-success.txt](./logs/flutter-3.0.0-coverage-1.3.2-dart-success.txt)
+[flutter-3.0.0-coverage-1.3.2-flutter-error.txt](./logs/flutter-3.0.0-coverage-1.3.2-flutter-error.txt) ❌
+[flutter-3.0.0-coverage-1.4.0-dart-success.txt](./logs/flutter-3.0.0-coverage-1.4.0-flutter-error.txt) ❌
+
+## Github relate open issue
+
+https://github.com/dart-lang/coverage/issues/390

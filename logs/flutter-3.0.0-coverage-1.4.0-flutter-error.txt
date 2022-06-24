@@ -1,0 +1,17 @@
+Package coverage is currently active at version 1.4.0.
+Resolving dependencies...
+The package coverage is already activated at newest available version.
+To recompile executables, first run `dart pub global deactivate coverage`.
+Installed executables collect_coverage, format_coverage and test_with_coverage.
+Activated coverage 1.4.0.
+The Dart VM service is listening on http://127.0.0.1:8181/
+The Dart DevTools debugger and profiler is available at: http://127.0.0.1:8181/devtools/#/?uri=ws%3A%2F%2F127.0.0.1%3A8181%2Fws
+
+## error
+jiodg45@jiodg45s-MacBook-Pro coverage_debug % ./local_test.sh>flutter-3.0.0-dart-package.txt
+Could not find package `test` or file `test`
+Unhandled exception:
+ProcessException: 
+  Command: /Users/jiodg45/versions/master/bin/cache/dart-sdk/bin/dart --branch-coverage run --pause-isolates-on-exit --disable-service-auth-codes --enable-vm-service=8181 test
+#0      dartRun (file:///Users/jiodg45/.pub-cache/hosted/pub.flutter-io.cn/coverage-1.4.0/bin/test_with_coverage.dart:38:5)
+<asynchronous suspension>

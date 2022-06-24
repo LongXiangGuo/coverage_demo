@@ -1,0 +1,14 @@
+name: dart_package
+description: A new Flutter package project.
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+
+dependencies:
+
+dev_dependencies:
+  test:
+  
+ 
