@@ -59,12 +59,19 @@ genhtml -o coverage coverage/lcov.info
 ## Logs and issues
 
 [flutter-2.5.3-coverage-1.2.0-dart-function-coverage-error.txt](./logs/flutter-2.5.3-coverage-1.2.0-dart-function-coverage-error.txt)  ❌
+
 [flutter-2.5.3-coverage-1.2.0-dart-readme-error.txt](./logs/flutter-2.5.3-coverage-1.2.0-dart-readme-error.txt) ❌
+
 [flutter-3.0.0-coverage-1.3.0-dart-error.txt](./logs/flutter-3.0.0-coverage-1.3.0-dart-error.txt)
+
 [flutter-3.0.0-coverage-1.3.0-flutter-error.txt](./logs/flutter-3.0.0-coverage-1.3.0-flutter-error.txt) ❌
+
 [flutter-3.0.0-coverage-1.3.2-dart-error.txt](./logs/flutter-3.0.0-coverage-1.3.2-dart-error.txt) ❌
+
 [flutter-3.0.0-coverage-1.3.2-dart-success.txt](./logs/flutter-3.0.0-coverage-1.3.2-dart-success.txt)
+
 [flutter-3.0.0-coverage-1.3.2-flutter-error.txt](./logs/flutter-3.0.0-coverage-1.3.2-flutter-error.txt) ❌
+
 [flutter-3.0.0-coverage-1.4.0-dart-success.txt](./logs/flutter-3.0.0-coverage-1.4.0-flutter-error.txt) ❌
 
 ## Github relate open issue
