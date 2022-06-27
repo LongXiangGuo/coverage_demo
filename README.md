@@ -1,17 +1,26 @@
 ## Coverage new changes
 
 - support function and branch test analyze
-- could got the sytem package code excute coverage also
-
+- could got the system package excuted code coverage
 - Support versions (on doing)
- 
-|summary  |  dart vm  | flutter | coverage |  dart package                                    | flutter package                                 | 
-|---|---|---|---|---|---|
-|env1 |  2.17     |  2.8.0 | 1.3.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
-|env2 |  2.17     |  3.0.0 | 1.3.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
-|env3 |  2.17     |  3.0.0 | 1.2.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
-|env3 |  2.14.4   |  2.5.3 | 1.2.0    |  [true](./coverage-2.17-dartpackage/index.html)  | [false](./md_resources/flutter_2.8.0_test.txt)  | 
 
+|summary  |  dart vm  | flutter | coverage | dart coverage | dart function-coverage | flutter branch-coverage     |  flutter function-coverage  |  flutter branch-coverage  | 
+|---------|-----------|---------|----------|---------------|------------------------| ----------------------------|-----------------------------|---------------------------|
+|env1     |  2.14.4   |  2.5.3  |  1.1.0   |     true      |          false         |          false              |           false             |           false           |  
+|env2     |  2.14.4   |  2.5.3  |  1.2.0   |     true      |          false         |          false              |           false             |           false           |   
+|env3     |  2.14.4   |  2.5.3  |  >=1.3.0 |     false     |          false         |          false              |           false             |           false           |
+|env4     |  2.5.1    |  2.8.1  |  1.1.0   |     true      |          false         |          false              |           false             |           false           |  
+|env5     |  2.5.1    |  2.8.1  |  1.2.0   |     true      |          false         |          false              |           false             |           false           |  
+|env6     |  2.5.1    |  2.8.1  |  1.3.0   |     true      |          false         |          false              |           false             |           false           |  
+|env7     |  2.5.1    |  2.8.1  |  1.3.1   |     true      |          true          |          false              |           false             |           false           |  
+|env8     |  2.5.1    |  2.8.1  |  1.3.2   |     true      |          true          |          false              |           false             |           false           |  
+|env9     |  2.5.1    |  2.8.1  |  1.4.0   |     true      |          true          |          false              |           false             |           false           |   
+|env10    |  2.17     |  3.0.0  |  1.1.0   |     true      |          false         |          false              |           false             |           false           |    
+|env11    |  2.17     |  3.0.0  |  1.2.0   |     true      |          false         |          false              |           false             |           false           |  
+|env11    |  2.17     |  3.0.0  |  1.3.0   |     true      |          false         |          false              |           false             |           false           |  
+|env11    |  2.17     |  3.0.0  |  1.3.1   |     true      |          true          |          false              |           false             |           false           | 
+|env11    |  2.17     |  3.0.0  |  1.3.2   |     true      |          true          |          false              |           false             |           false           |  
+|env11    |  2.17     |  3.0.0  |  1.4.0   |     true      |          true          |          false              |           false             |           false           |  
 
 ## Branch coverage work flow
 
@@ -19,18 +28,17 @@
 graph LR;
 
 runDartTest-->|run test in dart vm|VM
-
 VM-->|collect test data from vm|CollectCoverage
 CollectCoverage-->|format test data|lcovInfo
 lcovInfo-->|create html report|Report
 ```
 
-1. run test command,start the vm, vm record all the test calls
+1. run test command,start the dart vm, dart vm record all the test calls
 
 ```
-dart run --pause-isolates-on-exit --disable-service-auth-codes --enable-vm-service=8181 test
+dart run --pause-isolates-on-exit --disable-service-auth-codes --enable-vm-service=8181 test 
 ```
-2. collect test data for vm
+2. collect test data from dart vm
 ```
 collect_coverage --wait-paused --uri=http://127.0.0.1:8181/ -o coverage/coverage.json --resume-isolates --function-coverage --branch-coverage
 ```
@@ -40,7 +48,7 @@ collect_coverage --wait-paused --uri=http://127.0.0.1:8181/ -o coverage/coverage
 format_coverage --packages=.dart_tool/package_config.json --lcov -i coverage/coverage.json -o coverage/lcov.info
 ```
 
-4. genrate report
+4. genrate test report
 
 ```
 genhtml -o coverage coverage/lcov.info 
@@ -74,6 +82,10 @@ genhtml -o coverage coverage/lcov.info
 
 [flutter-3.0.0-coverage-1.4.0-dart-success.txt](./logs/flutter-3.0.0-coverage-1.4.0-flutter-error.txt) ❌
 
-## Github relate open issue
+## Github related open issue
 
 https://github.com/dart-lang/coverage/issues/390
+
+## Common errors
+
+`Could not start Observatory HTTP server`, should disbale the process with `8181` port, check the process `lsof -i tcp:8181` and kill it `kill -9 [process id]`

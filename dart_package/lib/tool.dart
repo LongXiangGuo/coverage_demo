@@ -25,3 +25,5 @@ class CoverageFeatureManager {
     }
   }
 }
+
+void staticMethod() {}
